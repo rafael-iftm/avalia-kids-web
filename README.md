@@ -17,12 +17,6 @@ Este painel permite que educadores gerenciem questões e acompanhem o desempenho
 - [Vite](https://vitejs.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [TailwindCSS](https://tailwindcss.com/)
-- [ShadCN UI](https://ui.shadcn.dev/)
-- [React Router](https://reactrouter.com/)
-- [React Hook Form](https://react-hook-form.com/)
-- [Zod](https://zod.dev/)
-- [Axios](https://axios-http.com/)
-- [jwt-decode](https://github.com/auth0/jwt-decode)
 
 ## 📦 Backend
 
@@ -62,23 +56,6 @@ Obs: edite o arquivo `.env` e defina `VITE_API_BASE_URL`
 
 ```bash
 npm run dev
-```
-
-## 📁 Estrutura inicial
-
-```
-avalia-kids-web
-├── public/
-├── src/
-│   ├── pages/
-│   ├── components/
-│   ├── routes/
-│   ├── services/
-│   └── App.tsx
-├── .env
-├── vite.config.ts
-├── tailwind.config.ts
-└── package.json
 ```
 
 ## 📝 Licença
