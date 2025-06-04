@@ -1,20 +1,28 @@
-import Header from '../components/layout/Header';
 import { Link } from 'react-router-dom';
+import Header from '../components/layout/Header';
+import Sidebar from '../components/layout/Sidebar';
 
 function DashboardPage() {
   return (
-    <div>
-      <Header />
-      <div className="p-4">
-        <h2 className="text-xl font-bold mb-4">Bem-vindo ao painel</h2>
-        <ul className="space-y-2">
-          <li>
-            <Link to="/questions" className="text-blue-600 hover:underline">Cadastrar Questões</Link>
-          </li>
-          <li>
-            <Link to="/results" className="text-blue-600 hover:underline">Ver Resultados</Link>
-          </li>
-        </ul>
+    <div className="flex h-screen bg-gray-100">
+      <Sidebar />
+      <div className="flex flex-col flex-1">
+        <Header />
+        <main className="p-6">
+          <h2 className="text-2xl font-bold mb-6">Bem-vindo ao painel</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-white rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-2">Cadastrar Questões</h3>
+              <p className="text-sm text-gray-600 mb-2">Adicione novas questões ao banco de dados.</p>
+              <Link to="/questions" className="text-blue-600 hover:underline text-sm">Ir para cadastro</Link>
+            </div>
+            <div className="p-4 bg-white rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-2">Resultados dos Alunos</h3>
+              <p className="text-sm text-gray-600 mb-2">Veja os resultados das avaliações aplicadas.</p>
+              <Link to="/results" className="text-blue-600 hover:underline text-sm">Ver resultados</Link>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );
