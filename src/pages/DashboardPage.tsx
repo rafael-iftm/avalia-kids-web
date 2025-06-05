@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
+import PageTitle from "../components/text/PageTitle";
+
 
 function DashboardPage() {
   return (
@@ -8,9 +10,9 @@ function DashboardPage() {
       <Sidebar />
       <div className="flex flex-col flex-1">
         <Header />
-        <main className="p-6">
-          <h2 className="text-2xl font-bold mb-6">Bem-vindo ao painel</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <main className=" m-10">
+          <PageTitle title="Bem-vindo ao painel" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4  mt-10">
             <div className="p-4 bg-white rounded-lg shadow">
               <h3 className="text-lg font-semibold mb-2">Cadastrar Questões</h3>
               <p className="text-sm text-gray-600 mb-2">Adicione novas questões ao banco de dados.</p>

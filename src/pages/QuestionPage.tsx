@@ -1,176 +1,86 @@
-import { useEffect, useState } from 'react';
-import { createQuestion, getQuestionsByClassLevel } from '../services/questionService';
-import Header from '../components/layout/Header';
-import Sidebar from '../components/layout/Sidebar';
-import { Image, BookText, ListOrdered } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { getQuestionsByClassLevel } from "../services/questionService";
+import { Link } from "react-router-dom";
+import Header from "../components/layout/Header";
+import Sidebar from "../components/layout/Sidebar";
+import PageTitle from "../components/text/PageTitle";
+import { CirclePlus, FileEdit } from "lucide-react";
 
-interface Question {
-  id?: string;
-  text: string;
-  options: string[];
-  correctOption: string;
-  imageUrl?: string;
-  placeholderUrl?: string;
-  classLevel: string;
-}
+
 
 function QuestionPage() {
-  const [text, setText] = useState('');
-  const [classLevel, setClassLevel] = useState('1º Ano');
-  const [options, setOptions] = useState(['', '', '', '']);
-  const [correctIndex, setCorrectIndex] = useState(0);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const classLevel = [
+    { turma: "1º Ano" },
+    { turma: "2º Ano" },
+    { turma: "3º Ano" },
+    { turma: "4º Ano" },
+    { turma: "5º Ano" },
+  ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const question: Question = {
-      text,
-      classLevel,
-      options,
-      correctOption: options[correctIndex],
-      imageUrl: '', // futura URL do Firebase
-      placeholderUrl: ''
-    };
-
-    await createQuestion(question);
-    alert('Questão cadastrada com sucesso!');
-    setText('');
-    setOptions(['', '', '', '']);
-    setCorrectIndex(0);
-    setImageFile(null);
-    fetchQuestions();
-  };
-
-  const fetchQuestions = async () => {
-    const res = await getQuestionsByClassLevel(classLevel);
-    setQuestions(res.data);
-  };
+  const [questionsCount, setQuestionsCount] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    fetchQuestions();
-  }, [classLevel]);
+    const fetchQuestionsCount = async () => {
+      const counts: Record<string, number> = {};
+
+      for (const item of classLevel) {
+        const response = await getQuestionsByClassLevel(item.turma);
+        counts[item.turma] = response.data.length; 
+      }
+
+      setQuestionsCount(counts);
+    };
+
+    fetchQuestionsCount();
+  }, []);
+
 
   return (
     <div className="flex h-screen bg-gray-100">
       <Sidebar />
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 ">
         <Header />
-        <main className="px-10 py-8 space-y-10 overflow-y-auto">
-          <section className="bg-white p-6 rounded-xl shadow max-w-4xl">
-            <h2 className="text-2xl font-semibold mb-6">Cadastro de Questões</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Enunciado</label>
-                <div className="flex items-center gap-2">
-                  <BookText size={18} className="text-gray-500" />
-                  <input
-                    type="text"
-                    value={text}
-                    onChange={e => setText(e.target.value)}
-                    placeholder="Digite o enunciado da questão"
-                    className="w-full border border-gray-300 rounded p-2"
-                    required
-                  />
-                </div>
-              </div>
+        <div className="m-10 ">
+          <PageTitle title="Questões Cadastradas" />
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Série</label>
-                  <select
-                    value={classLevel}
-                    onChange={e => setClassLevel(e.target.value)}
-                    className="w-full border border-gray-300 rounded p-2"
-                  >
-                    <option>1º Ano</option>
-                    <option>2º Ano</option>
-                    <option>3º Ano</option>
-                    <option>4º Ano</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Imagem (opcional)</label>
-                  <div className="flex items-center gap-2">
-                    <Image size={18} className="text-gray-500" />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={e => setImageFile(e.target.files?.[0] || null)}
-                      className="w-full border border-gray-300 rounded p-2"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Alternativas</label>
-                <div className="space-y-2">
-                  {options.map((opt, idx) => (
-                    <div key={idx} className="flex gap-2 items-center">
-                      <input
-                        type="radio"
-                        name="correct"
-                        checked={correctIndex === idx}
-                        onChange={() => setCorrectIndex(idx)}
-                      />
-                      <input
-                        type="text"
-                        placeholder={`Alternativa ${idx + 1}`}
-                        value={opt}
-                        onChange={e => {
-                          const updated = [...options];
-                          updated[idx] = e.target.value;
-                          setOptions(updated);
-                        }}
-                        className="w-full border border-gray-300 rounded p-2"
-                        required
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded"
-              >
-                Salvar Questão
-              </button>
-            </form>
-          </section>
-
-          <section className="max-w-4xl">
-            <h3 className="text-lg font-semibold mb-3">Questões cadastradas ({questions.length})</h3>
-            <ul className="space-y-3">
-              {questions.map((q, i) => (
-                <li key={q.id || i} className="bg-white p-4 rounded shadow text-sm">
-                  <div className="font-medium mb-1">{q.text}</div>
-                  {q.imageUrl && (
-                    <img
-                      src={q.imageUrl}
-                      alt="Imagem da questão"
-                      className="w-32 mb-2 rounded border"
-                    />
-                  )}
-                  <ul className="list-disc ml-5 text-gray-700">
-                    {q.options.map((opt, idx) => (
-                      <li
-                        key={idx}
-                        className={opt === q.correctOption ? 'font-bold text-green-600' : ''}
+          <div className="bg-white p-6 rounded-lg shadow mt-10 ">
+            <table className="w-full table-auto ">
+              <thead >
+                <tr className="text-left text-gray-400 ">
+                  <th className="w-3/12"></th>
+                  <th className="w-5/12">Turma</th>
+                  <th className="w-4/12">Questões</th>
+                  <th className="w-6/12"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {classLevel.map((item) => (
+                  <tr key={item.turma} className="border-b last:border-b-0">
+                    <td className="py-4">
+                      <FileEdit className="w-6 h-6 text-gray-700" />
+                    </td>
+                    <td className="py-4 text-gray-700">{item.turma}</td>
+                    <td className="py-4 font-medium text-gray-900">
+                       {questionsCount[item.turma] !== undefined
+                        ? questionsCount[item.turma]
+                        : "Carregando..."}
+                    </td>
+                    <td className="py-4">
+                      <Link
+                        to="/questions/add"
+                        className=" m-5 p-6 w-[250px] h-[34px]  bg-[#1B3C87] text-white rounded-lg flex items-center justify-center "
                       >
-                        {opt}
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </main>
+                        <CirclePlus className="m-2" />
+                        Adicionar Questão
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
