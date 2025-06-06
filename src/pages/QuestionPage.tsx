@@ -14,7 +14,6 @@ function QuestionPage() {
     { turma: "2º Ano" },
     { turma: "3º Ano" },
     { turma: "4º Ano" },
-    { turma: "5º Ano" },
   ];
 
   const [questionsCount, setQuestionsCount] = useState<Record<string, number>>({});
@@ -68,7 +67,7 @@ function QuestionPage() {
                     </td>
                     <td className="py-4">
                       <Link
-                        to="/questions/add"
+                        to={`/questions/add?turma=${encodeURIComponent(item.turma)}`}
                         className=" m-5 p-6 w-[250px] h-[34px]  bg-[#1B3C87] text-white rounded-lg flex items-center justify-center "
                       >
                         <CirclePlus className="m-2" />
