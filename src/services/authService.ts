@@ -17,3 +17,10 @@ export const loginUser = async (email: string, password: string) => {
   });
   return response.data;
 };
+
+export async function resetPassword(token: string, newPassword: string) {
+  return api.post('/auth-service/auth/reset-password', {
+    token,
+    newPassword,
+  });
+}

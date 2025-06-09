@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { createQuestion, getQuestionsByClassLevel } from '../services/questionService';
 import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
-import { Image, BookText, ListOrdered } from 'lucide-react';
+import { Image, BookText } from 'lucide-react';
 
 interface Question {
   id?: string;
@@ -19,7 +19,7 @@ function AddQuestionPage() {
   const [classLevel, setClassLevel] = useState('1º Ano');
   const [options, setOptions] = useState(['', '', '', '']);
   const [correctIndex, setCorrectIndex] = useState(0);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  // const [imageFile, setImageFile] = useState<File | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,7 +39,7 @@ function AddQuestionPage() {
     setText('');
     setOptions(['', '', '', '']);
     setCorrectIndex(0);
-    setImageFile(null);
+    // setImageFile(null);
     fetchQuestions();
   };
 
@@ -99,7 +99,7 @@ function AddQuestionPage() {
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={e => setImageFile(e.target.files?.[0] || null)}
+                      // onChange={e => setImageFile(e.target.files?.[0] || null)}
                       className="w-full border border-gray-300 rounded p-2"
                     />
                   </div>
