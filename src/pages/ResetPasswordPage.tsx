@@ -38,7 +38,7 @@ function ResetPasswordPage() {
     {/* Lado esquerdo (imagem e texto) */}
     <div className="md:w-1/2 bg-[#1B3C87] text-white flex flex-col justify-center items-center p-10">
       <img
-        src={getImageUrl({ folder: 'default', filename: 'reset-password' })}
+        src={getImageUrl({ filename: 'reset-password' })}
         alt="Recuperar senha"
         className="w-32 md:w-52 lg:w-72 mb-6"
       />
