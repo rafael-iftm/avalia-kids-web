@@ -40,7 +40,7 @@ function ResetPasswordPage() {
       <img
         src={getImageUrl({ folder: 'default', filename: 'reset-password' })}
         alt="Recuperar senha"
-        className="w-50 mb-6"
+        className="w-32 md:w-52 lg:w-72 mb-6"
       />
       <h2 className="text-xl md:text-2xl font-semibold text-center mb-1">
         Redefina sua senha
