@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Header from "../components/layout/Header";
 import Sidebar from "../components/layout/Sidebar";
 import PageTitle from "../components/text/PageTitle";
-import { CirclePlus, FileEdit } from "lucide-react";
+import { FileEdit } from "lucide-react";
 
 
 
@@ -14,7 +14,6 @@ function QuestionPage() {
     { turma: "2º Ano" },
     { turma: "3º Ano" },
     { turma: "4º Ano" },
-    { turma: "5º Ano" },
   ];
 
   const [questionsCount, setQuestionsCount] = useState<Record<string, number>>({});
@@ -48,7 +47,7 @@ function QuestionPage() {
             <table className="w-full table-auto ">
               <thead >
                 <tr className="text-left text-gray-400 ">
-                  <th className="w-3/12"></th>
+                  
                   <th className="w-5/12">Turma</th>
                   <th className="w-4/12">Questões</th>
                   <th className="w-6/12"></th>
@@ -57,9 +56,7 @@ function QuestionPage() {
               <tbody>
                 {classLevel.map((item) => (
                   <tr key={item.turma} className="border-b last:border-b-0">
-                    <td className="py-4">
-                      <FileEdit className="w-6 h-6 text-gray-700" />
-                    </td>
+                    
                     <td className="py-4 text-gray-700">{item.turma}</td>
                     <td className="py-4 font-medium text-gray-900">
                        {questionsCount[item.turma] !== undefined
@@ -68,11 +65,11 @@ function QuestionPage() {
                     </td>
                     <td className="py-4">
                       <Link
-                        to="/questions/add"
+                        to={`/questions/add?turma=${encodeURIComponent(item.turma)}`}
                         className=" m-5 p-6 w-[250px] h-[34px]  bg-[#1B3C87] text-white rounded-lg flex items-center justify-center "
                       >
-                        <CirclePlus className="m-2" />
-                        Adicionar Questão
+                        <FileEdit className="m-2" />
+                        Gerenciar Questões
                       </Link>
                     </td>
                   </tr>

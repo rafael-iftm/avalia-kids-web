@@ -8,7 +8,7 @@ function Sidebar() {
     `flex items-center gap-3 px-3 py-2 rounded-md transition ${
       location.pathname === path
         ? 'bg-white text-[#1B3C87] font-semibold'
-        : 'hover:bg-blue-600'
+        : 'hover:bg-blue-800'
     }`;
 
   return (
